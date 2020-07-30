@@ -7,4 +7,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TextAppearance.BoldFont" parent="android:TextAppearance">
+        <item name="android:fontFamily">@font/sora_bold</item>
+        <item name="fontFamily">@font/sora_bold</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="TextAppearance.NormalFont" parent="android:TextAppearance">
+        <item name="android:fontFamily">@font/sora_regular</item>
+        <item name="fontFamily">@font/sora_regular</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
 </resources>
