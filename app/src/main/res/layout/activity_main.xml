@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/app_background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".TodayActivity">
 
@@ -11,6 +12,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            style="@style/HeaderBar"
+            android:elevation="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today"
+                android:textSize="20sp"
+                android:textColor="#000"
+                android:layout_gravity="center"
+                android:id="@+id/toolbar_title"/>
+
+        </androidx.appcompat.widget.Toolbar>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -24,10 +43,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
             android:textSize="20sp"
             android:textStyle="normal"
             android:textColor="#000"
-            android:text="LONDON, UK"
             android:id="@+id/current_location" />
         
         <TextView
@@ -35,10 +54,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:textStyle="normal"
             android:textColor="#3a8cb5"
-            android:text="20 degrees | Sunny"
             android:id="@+id/current_weather_tv" />
 
         <View
@@ -50,6 +68,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -70,7 +89,7 @@
                     android:layout_gravity="center_horizontal"
                     android:textColor="#000"
                     android:text="57%"
-                    android:id="@+id/rain_prob_tv" />
+                    android:id="@+id/humidity_tv" />
 
             </LinearLayout>
 
@@ -84,15 +103,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/humidity"/>
+                    android:src="@drawable/cloudiness"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:textColor="#000"
-                    android:text="1.0 mm"
-                    android:id="@+id/humidity_tv" />
+                    android:id="@+id/cloudiness" />
 
             </LinearLayout>
 
@@ -184,6 +202,7 @@
             android:text="@string/share_btn"
             android:layout_margin="10dp"
             android:layout_gravity="center_horizontal"
+            android:textColor="#fff"
             android:background="@drawable/rounded_btn" />
 
     </LinearLayout>
@@ -192,9 +211,11 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:itemBackground="@color/cardview_light_background"
+        android:background="@color/cardview_light_background"
         app:menu="@menu/bottom_navigation_menu"
         android:layout_alignParentBottom="true"
+        app:itemIconTint="@drawable/selector"
+        app:itemTextColor="@drawable/selector"
         tools:ignore="PrivateResource" />
 
 </RelativeLayout>

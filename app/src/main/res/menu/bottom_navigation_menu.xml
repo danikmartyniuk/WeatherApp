@@ -1,13 +1,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/page_1"
+        android:id="@+id/today"
         android:enabled="true"
         android:icon="@drawable/today_icon"
         android:title="@string/today_nav_menu"/>
 
     <item
-        android:id="@+id/page_2"
+        android:id="@+id/forecast"
         android:enabled="true"
         android:icon="@drawable/forecast_icon"
         android:title="@string/forecast_nav_menu"/>
