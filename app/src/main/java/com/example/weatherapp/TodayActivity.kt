@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class TodayActivity : AppCompatActivity(), Presenter.View {
 
     lateinit var presenter: Presenter
+    lateinit var weatherImg: ImageView
     lateinit var locationTv: TextView
     lateinit var currentWeatherTv: TextView
     lateinit var humidityTv: TextView
@@ -35,6 +37,7 @@ class TodayActivity : AppCompatActivity(), Presenter.View {
 
         presenter = Presenter(this@TodayActivity)
 
+        weatherImg = findViewById(R.id.current_weather_img)
         locationTv = findViewById(R.id.current_location)
         currentWeatherTv = findViewById(R.id.current_weather_tv)
         humidityTv = findViewById(R.id.humidity_tv)
@@ -45,7 +48,7 @@ class TodayActivity : AppCompatActivity(), Presenter.View {
         if (ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this@TodayActivity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
         } else {
-            setParameters(this@TodayActivity, locationTv, currentWeatherTv, humidityTv, cloudinessTv, pressureTv, windSpeedTv, windDirection)
+            setParameters(this@TodayActivity, weatherImg, locationTv, currentWeatherTv, humidityTv, cloudinessTv, pressureTv, windSpeedTv, windDirection)
         }
     }
 
@@ -76,8 +79,8 @@ class TodayActivity : AppCompatActivity(), Presenter.View {
 
     }
 
-    override fun setParameters(context: Context, locationTv: TextView, weatherTv: TextView, humidityTv: TextView, cloudinessTv: TextView, pressureTv: TextView, windSpeedTv: TextView, windDirection: TextView) {
-        presenter.getInfo(context, locationTv, weatherTv, humidityTv, cloudinessTv, pressureTv, windSpeedTv, windDirection)
+    override fun setParameters(context: Context, weatherImg: ImageView, locationTv: TextView, weatherTv: TextView, humidityTv: TextView, cloudinessTv: TextView, pressureTv: TextView, windSpeedTv: TextView, windDirection: TextView) {
+        presenter.getInfo(context, weatherImg, locationTv, weatherTv, humidityTv, cloudinessTv, pressureTv, windSpeedTv, windDirection)
     }
 
 }

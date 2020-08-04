@@ -1,6 +1,7 @@
 package com.example.weatherapp
 
 import android.content.Context
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -14,8 +15,8 @@ class Presenter {
         this.view = view
     }
 
-    fun getInfo (context: Context, locationTv: TextView, weatherTv: TextView, humidityTv: TextView, cloudinessTv: TextView, pressureTv: TextView, windSpeedTv: TextView, windDirection: TextView) {
-        return model.getInfoFromApi(context, locationTv, weatherTv, humidityTv, cloudinessTv, pressureTv, windSpeedTv, windDirection)
+    fun getInfo (context: Context, weatherImg: ImageView, locationTv: TextView, weatherTv: TextView, humidityTv: TextView, cloudinessTv: TextView, pressureTv: TextView, windSpeedTv: TextView, windDirection: TextView) {
+        return model.getInfoFromApi(context, weatherImg, locationTv, weatherTv, humidityTv, cloudinessTv, pressureTv, windSpeedTv, windDirection)
     }
 
     fun getDataForFiveDays (context: Context, day1tv: TextView, forecast1Rv: RecyclerView, day2tv: TextView, forecast2Rv: RecyclerView,
@@ -28,6 +29,6 @@ class Presenter {
         fun setDataToRecyclerViews (context: Context, day1tv: TextView, forecast1Rv: RecyclerView, day2tv: TextView, forecast2Rv: RecyclerView,
                                     day3tv: TextView, forecast3Rv: RecyclerView, day4tv: TextView, forecast4Rv: RecyclerView,
                                     day5tv: TextView, forecast5Rv: RecyclerView)
-        fun setParameters(context: Context, locationTv: TextView, weatherTv: TextView, humidityTv: TextView, cloudinessTv: TextView, pressureTv: TextView, windSpeedTv: TextView, windDirection: TextView)
+        fun setParameters(context: Context, weatherImg: ImageView, locationTv: TextView, weatherTv: TextView, humidityTv: TextView, cloudinessTv: TextView, pressureTv: TextView, windSpeedTv: TextView, windDirection: TextView)
     }
 }

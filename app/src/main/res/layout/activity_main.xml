@@ -81,14 +81,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/rain"/>
+                    android:src="@drawable/humidity"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:textColor="#000"
-                    android:text="57%"
                     android:id="@+id/humidity_tv" />
 
             </LinearLayout>
@@ -131,7 +130,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:textColor="#000"
-                    android:text="1019hpa"
                     android:id="@+id/pressure_tv" />
 
             </LinearLayout>
@@ -161,7 +159,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:textColor="#000"
-                    android:text="20 km/h"
                     android:id="@+id/wind_speed_tv" />
 
             </LinearLayout>
@@ -183,7 +180,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:textColor="#000"
-                    android:text="SE"
                     android:id="@+id/wind_direction_tv" />
 
             </LinearLayout>

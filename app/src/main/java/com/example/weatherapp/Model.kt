@@ -10,7 +10,6 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
@@ -30,6 +29,7 @@ class Model {
 
     fun getInfoFromApi(
         context: Context,
+        weatherImg: ImageView,
         locationTv: TextView,
         weatherTv: TextView,
         humidityTv: TextView,
@@ -66,9 +66,9 @@ class Model {
                         val body = response.body()?.string()
                         val forecasts = GsonBuilder().create().fromJson(body, Forecast::class.java)
                         Handler(Looper.getMainLooper()).post {
+                            setImageByDescription(forecasts.list[0].weather[0].description.capitalize(), weatherImg)
                             locationTv.text = "${forecasts.city.name}, ${forecasts.city.country}"
-                            weatherTv.text =
-                                "${(forecasts.list[0].main.feels_like - 273.15).roundToInt()}°C | ${forecasts.list[0].weather[0].description.capitalize()}"
+                            weatherTv.text = "${(forecasts.list[0].main.feels_like - 273.15).roundToInt()}°C | ${forecasts.list[0].weather[0].description.capitalize()}"
                             humidityTv.text = "${forecasts.list[0].main.humidity}%"
                             cloudinessTv.text = "${forecasts.list[0].clouds.all}%"
                             pressureTv.text = "${forecasts.list[0].main.pressure} hpa"
@@ -89,6 +89,10 @@ class Model {
                 })
             }
         }
+    }
+
+    fun shareWeather () {
+
     }
 
     fun getForecastForFiveDays(context: Context,
@@ -160,7 +164,16 @@ class Model {
     }
 
     fun setImageByDescription (description: String, imgView: ImageView) {
-
+        when (description) {
+            "Sunny" -> imgView.setImageResource(R.drawable.sunny)
+            "Scattered clouds" -> imgView.setImageResource(R.drawable.scattered_clouds)
+            "Few clouds" -> imgView.setImageResource(R.drawable.few_clouds)
+            "Clear sky" -> imgView.setImageResource(R.drawable.clear_sky)
+            "Overcast clouds" -> imgView.setImageResource(R.drawable.overcast_clouds)
+            "Broken clouds" -> imgView.setImageResource(R.drawable.dark_clouds)
+            "Light rain" -> imgView.setImageResource(R.drawable.light_rain)
+            "Moderate rain" -> imgView.setImageResource(R.drawable.moderate_rain)
+        }
     }
 
 }
@@ -194,16 +207,19 @@ class Adapter (private val times: List<String>, private val conditions: List<Str
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.weatherImg?.let { Model().setImageByDescription(conditions[position], it) }
         holder.timeTv?.text = times[position]
         holder.weatherTv?.text = conditions[position]
         holder.degreesTv?.text = "${(weatherDegree[position] - 273.15).roundToInt()}°C"
     }
 
     class ViewHolder (itemView: View): RecyclerView.ViewHolder(itemView) {
+        var weatherImg: ImageView? = null
         var timeTv : TextView? = null
         var weatherTv : TextView? = null
         var degreesTv : TextView? = null
         init {
+            weatherImg = itemView.findViewById(R.id.forecast_imgview)
             timeTv = itemView.findViewById(R.id.time)
             weatherTv = itemView.findViewById(R.id.weather_condition)
             degreesTv = itemView.findViewById(R.id.degrees)

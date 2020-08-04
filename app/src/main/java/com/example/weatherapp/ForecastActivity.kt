@@ -3,6 +3,7 @@ package com.example.weatherapp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -80,6 +81,7 @@ class ForecastActivity : AppCompatActivity(), Presenter.View {
 
     override fun setParameters(
         context: Context,
+        weatherImg: ImageView,
         locationTv: TextView,
         weatherTv: TextView,
         humidityTv: TextView,
