@@ -185,7 +185,7 @@ class Model {
                                     listConditions[dayNumber].add(times.weather[0].description.capitalize())
                                     listDegrees[dayNumber].add(times.main.feels_like)
                                 } else {
-                                    listNamesOfDays[dayNumber].text = getDayString(SimpleDateFormat("yyyy-mm-dd").parse(currentDate), Locale.ENGLISH)
+                                    listNamesOfDays[dayNumber].text = getDayString(SimpleDateFormat("yyyy-mm-dd").parse(currentDate.substring(0, 8) + (currentDate.substringAfter("-").substringAfter("-").toInt() + 3).toString()), Locale.ENGLISH)
                                     currentDate = dateInApi
                                     dayNumber++
                                     if (dayNumber == 5) break
@@ -210,7 +210,6 @@ class Model {
 
     fun setImageByDescription (description: String, imgView: ImageView) {
         when (description) {
-            "Sunny" -> imgView.setImageResource(R.drawable.sunny)
             "Scattered clouds" -> imgView.setImageResource(R.drawable.scattered_clouds)
             "Few clouds" -> imgView.setImageResource(R.drawable.few_clouds)
             "Clear sky" -> imgView.setImageResource(R.drawable.clear_sky)
