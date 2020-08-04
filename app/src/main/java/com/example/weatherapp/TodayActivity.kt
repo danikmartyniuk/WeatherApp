@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -26,6 +28,7 @@ class TodayActivity : AppCompatActivity(), Presenter.View {
     lateinit var pressureTv: TextView
     lateinit var windSpeedTv: TextView
     lateinit var windDirection: TextView
+    lateinit var shareBtn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +52,11 @@ class TodayActivity : AppCompatActivity(), Presenter.View {
             ActivityCompat.requestPermissions(this@TodayActivity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
         } else {
             setParameters(this@TodayActivity, weatherImg, locationTv, currentWeatherTv, humidityTv, cloudinessTv, pressureTv, windSpeedTv, windDirection)
+        }
+
+        shareBtn = findViewById(R.id.share)
+        shareBtn.setOnClickListener {
+            onShareClick(this@TodayActivity)
         }
     }
 
@@ -81,6 +89,10 @@ class TodayActivity : AppCompatActivity(), Presenter.View {
 
     override fun setParameters(context: Context, weatherImg: ImageView, locationTv: TextView, weatherTv: TextView, humidityTv: TextView, cloudinessTv: TextView, pressureTv: TextView, windSpeedTv: TextView, windDirection: TextView) {
         presenter.getInfo(context, weatherImg, locationTv, weatherTv, humidityTv, cloudinessTv, pressureTv, windSpeedTv, windDirection)
+    }
+
+    override fun onShareClick(context: Context) {
+        presenter.share(context)
     }
 
 }

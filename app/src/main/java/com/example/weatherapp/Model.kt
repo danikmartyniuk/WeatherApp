@@ -3,6 +3,7 @@ package com.example.weatherapp
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Handler
@@ -18,6 +19,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import java.io.IOException
+import java.lang.StringBuilder
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -91,8 +93,51 @@ class Model {
         }
     }
 
-    fun shareWeather () {
+    fun shareWeather (context: Context) {
+        val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
 
+        fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
+            if (location != null) {
+                val url =
+                    "https://api.openweathermap.org/data/2.5/forecast?lat=${location.latitude}&lon=${location.longitude}&appid=${API}"
+                val request = Request.Builder().url(url).build()
+                val client = OkHttpClient()
+                client.newCall(request).enqueue(object : Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        println("Failed to execute request")
+                    }
+
+                    @SuppressLint("SetTextI18n")
+                    override fun onResponse(call: Call, response: Response) {
+                        val body = response.body()?.string()
+                        val forecasts = GsonBuilder().create().fromJson(body, Forecast::class.java)
+                        val intent = Intent()
+                        intent.action = Intent.ACTION_SEND
+                        val textToSend = StringBuilder()
+                        textToSend.append("${forecasts.city.name}, ${forecasts.city.country}").append("\n")
+                            .append("${(forecasts.list[0].main.feels_like - 273.15).roundToInt()}°C | ${forecasts.list[0].weather[0].description.capitalize()}").append("\n")
+                            .append("Humidity is ${forecasts.list[0].main.humidity}%").append("\n")
+                            .append("Cloudiness is ${forecasts.list[0].clouds.all}%").append("\n")
+                            .append("Wind speed is ${forecasts.list[0].wind.speed * 3.6} km/h").append("\n")
+                            .append("For more details download 'Weather App'")
+                        intent.putExtra(Intent.EXTRA_TEXT, textToSend.toString())
+                        intent.type = "text/plain"
+                        val shareIntent = Intent.createChooser(intent, null)
+                        context.startActivity(shareIntent)
+                    }
+                })
+            }
+        }
     }
 
     fun getForecastForFiveDays(context: Context,

@@ -92,4 +92,8 @@ class ForecastActivity : AppCompatActivity(), Presenter.View {
     ) {
 
     }
+
+    override fun onShareClick(context: Context) {
+
+    }
 }

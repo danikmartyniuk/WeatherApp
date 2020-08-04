@@ -25,10 +25,15 @@ class Presenter {
         model.getForecastForFiveDays(context, day1tv, forecast1Rv, day2tv, forecast2Rv, day3tv, forecast3Rv, day4tv, forecast4Rv, day5tv, forecast5Rv)
     }
 
+    fun share (context: Context) {
+        model.shareWeather(context)
+    }
+
     interface View {
         fun setDataToRecyclerViews (context: Context, day1tv: TextView, forecast1Rv: RecyclerView, day2tv: TextView, forecast2Rv: RecyclerView,
                                     day3tv: TextView, forecast3Rv: RecyclerView, day4tv: TextView, forecast4Rv: RecyclerView,
                                     day5tv: TextView, forecast5Rv: RecyclerView)
         fun setParameters(context: Context, weatherImg: ImageView, locationTv: TextView, weatherTv: TextView, humidityTv: TextView, cloudinessTv: TextView, pressureTv: TextView, windSpeedTv: TextView, windDirection: TextView)
+        fun onShareClick (context: Context)
     }
 }
