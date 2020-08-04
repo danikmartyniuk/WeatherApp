@@ -32,6 +32,7 @@ class ForecastActivity : AppCompatActivity(), Presenter.View {
         val toolbar: Toolbar = findViewById(R.id.my_toolbar)
         setSupportActionBar(toolbar)
         val bottomNav: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        bottomNav.selectedItemId = R.id.forecast_nav
         bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         presenter = Presenter(this@ForecastActivity)
