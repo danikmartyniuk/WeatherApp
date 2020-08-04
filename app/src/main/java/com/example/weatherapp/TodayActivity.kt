@@ -4,20 +4,14 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Address
-import android.location.Geocoder
-import android.location.Location
 import android.os.Bundle
-import android.os.Handler
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.gms.location.LocationServices
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 
 
 class TodayActivity : AppCompatActivity(), Presenter.View {
@@ -53,18 +47,33 @@ class TodayActivity : AppCompatActivity(), Presenter.View {
         } else {
             setParameters(this@TodayActivity, locationTv, currentWeatherTv, humidityTv, cloudinessTv, pressureTv, windSpeedTv, windDirection)
         }
-
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.forecast -> {
+            R.id.forecast_nav -> {
                 val intent = Intent(this, ForecastActivity::class.java)
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }
         }
         false
+    }
+
+    override fun setDataToRecyclerViews(
+        context: Context,
+        day1tv: TextView,
+        forecast1Rv: RecyclerView,
+        day2tv: TextView,
+        forecast2Rv: RecyclerView,
+        day3tv: TextView,
+        forecast3Rv: RecyclerView,
+        day4tv: TextView,
+        forecast4Rv: RecyclerView,
+        day5tv: TextView,
+        forecast5Rv: RecyclerView
+    ) {
+
     }
 
     override fun setParameters(context: Context, locationTv: TextView, weatherTv: TextView, humidityTv: TextView, cloudinessTv: TextView, pressureTv: TextView, windSpeedTv: TextView, windDirection: TextView) {
