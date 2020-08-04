@@ -31,15 +31,15 @@ class TodayActivity : AppCompatActivity(), Presenter.View {
     lateinit var shareBtn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            setContentView(R.layout.activity_main)
-            val toolbar: Toolbar = findViewById(R.id.my_toolbar)
-            setSupportActionBar(toolbar)
-            val bottomNav: BottomNavigationView = findViewById(R.id.bottom_navigation)
-            bottomNav.selectedItemId = R.id.today_nav
-            bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val toolbar: Toolbar = findViewById(R.id.my_toolbar)
+        setSupportActionBar(toolbar)
+        val bottomNav: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        bottomNav.selectedItemId = R.id.today_nav
+        bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        if (haveNetworkConnection()) {
+        if (hasNetworkConnection()) {
             presenter = Presenter(this@TodayActivity)
 
             weatherImg = findViewById(R.id.current_weather_img)
@@ -84,7 +84,7 @@ class TodayActivity : AppCompatActivity(), Presenter.View {
         }
     }
 
-    private fun haveNetworkConnection(): Boolean {
+    private fun hasNetworkConnection(): Boolean {
         var haveConnectedWifi = false
         var haveConnectedMobile = false
         val cm =
