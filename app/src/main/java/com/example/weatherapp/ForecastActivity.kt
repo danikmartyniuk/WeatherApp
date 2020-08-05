@@ -2,9 +2,12 @@ package com.example.weatherapp
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +29,7 @@ class ForecastActivity : AppCompatActivity(), Presenter.View {
     lateinit var recyclerView5: RecyclerView
     lateinit var day5Tv: TextView
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forecast)
@@ -34,6 +38,10 @@ class ForecastActivity : AppCompatActivity(), Presenter.View {
         val bottomNav: BottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNav.selectedItemId = R.id.forecast_nav
         bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+        val observableObject = ObservableObject(PrintingTextChangedListener(), this@ForecastActivity)
+        observableObject.network = isOnline(this@ForecastActivity)
+        observableObject.location = isLocationEnabled(this@ForecastActivity)
 
         presenter = Presenter(this@ForecastActivity)
 
@@ -56,6 +64,10 @@ class ForecastActivity : AppCompatActivity(), Presenter.View {
         recyclerView5 = findViewById(R.id.forecast5)
         recyclerView5.layoutManager = LinearLayoutManager(this)
         day5Tv = findViewById(R.id.day5)
+
+        val customView: View = findViewById(R.id.custom_view)
+        customView.layoutParams.height = 110
+        customView.requestLayout()
 
         setDataToRecyclerViews(this, day1Tv, recyclerView1, day2Tv, recyclerView2, day3Tv, recyclerView3, day4Tv, recyclerView4, day5Tv, recyclerView5)
     }

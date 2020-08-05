@@ -5,10 +5,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
@@ -30,6 +35,7 @@ class TodayActivity : AppCompatActivity(), Presenter.View {
     lateinit var windDirection: TextView
     lateinit var shareBtn: Button
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -39,66 +45,52 @@ class TodayActivity : AppCompatActivity(), Presenter.View {
         bottomNav.selectedItemId = R.id.today_nav
         bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        if (hasNetworkConnection()) {
-            presenter = Presenter(this@TodayActivity)
+        val observableObject = ObservableObject(PrintingTextChangedListener(), this@TodayActivity)
+        observableObject.network = isOnline(this@TodayActivity)
+        observableObject.location = isLocationEnabled(this@TodayActivity)
 
-            weatherImg = findViewById(R.id.current_weather_img)
-            locationTv = findViewById(R.id.current_location)
-            currentWeatherTv = findViewById(R.id.current_weather_tv)
-            humidityTv = findViewById(R.id.humidity_tv)
-            cloudinessTv = findViewById(R.id.cloudiness)
-            pressureTv = findViewById(R.id.pressure_tv)
-            windSpeedTv = findViewById(R.id.wind_speed_tv)
-            windDirection = findViewById(R.id.wind_direction_tv)
-            if (ContextCompat.checkSelfPermission(
-                    applicationContext,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    this@TodayActivity,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    1
-                )
-            } else {
-                setParameters(
-                    this@TodayActivity,
-                    weatherImg,
-                    locationTv,
-                    currentWeatherTv,
-                    humidityTv,
-                    cloudinessTv,
-                    pressureTv,
-                    windSpeedTv,
-                    windDirection
-                )
-            }
+        presenter = Presenter(this@TodayActivity)
 
-            shareBtn = findViewById(R.id.share)
-            shareBtn.setOnClickListener {
-                onShareClick(this@TodayActivity)
-            }
+        weatherImg = findViewById(R.id.current_weather_img)
+        locationTv = findViewById(R.id.current_location)
+        currentWeatherTv = findViewById(R.id.current_weather_tv)
+        humidityTv = findViewById(R.id.humidity_tv)
+        cloudinessTv = findViewById(R.id.cloudiness)
+        pressureTv = findViewById(R.id.pressure_tv)
+        windSpeedTv = findViewById(R.id.wind_speed_tv)
+        windDirection = findViewById(R.id.wind_direction_tv)
+        if (ContextCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this@TodayActivity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                1
+            )
         } else {
-            val intent = Intent(this, NoInternetActivity::class.java)
-            startActivity(intent)
+            setParameters(
+                this@TodayActivity,
+                weatherImg,
+                locationTv,
+                currentWeatherTv,
+                humidityTv,
+                cloudinessTv,
+                pressureTv,
+                windSpeedTv,
+                windDirection
+            )
         }
-    }
 
-    private fun hasNetworkConnection(): Boolean {
-        var haveConnectedWifi = false
-        var haveConnectedMobile = false
-        val cm =
-            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val netInfo = cm.allNetworkInfo
-        for (ni in netInfo) {
-            if (ni.typeName
-                    .equals("WIFI", ignoreCase = true)
-            ) if (ni.isConnected) haveConnectedWifi = true
-            if (ni.typeName
-                    .equals("MOBILE", ignoreCase = true)
-            ) if (ni.isConnected) haveConnectedMobile = true
+        shareBtn = findViewById(R.id.share)
+        shareBtn.setOnClickListener {
+            onShareClick(this@TodayActivity)
         }
-        return haveConnectedWifi || haveConnectedMobile
+
+        val customView: View = findViewById(R.id.custom_view)
+        customView.layoutParams.height = 110
+        customView.requestLayout()
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
