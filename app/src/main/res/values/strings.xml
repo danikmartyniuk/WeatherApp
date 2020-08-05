@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+
+    <string name="today_nav_menu">Today</string>
+    <string name="forecast_nav_menu">Forecast</string>
+
+    <string name="share_btn">Share</string>
+
+    <string name="today">Today</string>
 </resources>
